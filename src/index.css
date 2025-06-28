@@ -77,7 +77,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-uclv-blue: #0056b3;
   --color-uclv-light-blue: #e6f0fa;
-  --color-uclv-green: #4CAF50;
+  --color-uclv-green: #4caf50;
   --color-uclv-gray: #f5f7fa;
   --color-uclv-dark: #2c3e50;
   --color-uclv-red: #e74c3c;
@@ -119,4 +119,7 @@
 }
 
 @layer base {
+  body {
+    @apply bg-[#F5F7FA];
+  }
 }
