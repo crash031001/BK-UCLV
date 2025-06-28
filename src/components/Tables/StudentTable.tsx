@@ -2,14 +2,17 @@ import { cn } from "@/lib/utils";
 import type { StudentType } from "@/types/StudentType";
 import { useEffect, useState } from "react";
 import Pagination from "../shared/Pagination";
-import estudiantes from '@/utils/students.json'
+import estudiantes from "@/utils/students.json";
+import { StudentDetailDialog } from "../Dialogs/StudentDetailsDialog";
+import { StudentDeleteDialog } from "../Dialogs/StudentDeleteDialog";
+
 interface StudentTableProps {
   className?: string;
 }
 
 const StudentTable = ({ className }: StudentTableProps) => {
   const [students, setStudents] = useState<StudentType[]>([]);
-  const list: StudentType[] = estudiantes
+  const list: StudentType[] = estudiantes;
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 6;
   const indexOfLastStudent = currentPage * studentsPerPage;
@@ -19,6 +22,27 @@ const StudentTable = ({ className }: StudentTableProps) => {
     indexOfFirstStudent,
     indexOfLastStudent
   );
+  const [viewDialogOpen, setViewDialogOpen] = useState(false);
+  // const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState<StudentType | null>(
+    null
+  );
+  
+  const handleView = (student: StudentType) => {
+    setSelectedStudent(student);
+    setViewDialogOpen(true);
+  };
+
+  const handleEdit = (student: StudentType) => {
+    setSelectedStudent(student);
+    setViewDialogOpen(true);
+  };
+
+  const handleDelete = (student: StudentType) => {
+    setSelectedStudent(student);
+    setDeleteDialogOpen(true);
+  };
   const loadData = () => {
     setStudents(list);
   };
@@ -98,18 +122,18 @@ const StudentTable = ({ className }: StudentTableProps) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <div className="flex space-x-2">
-                    <button className="text-blue-600 hover:text-blue-900 edit-student-btn">
+                    <button className="text-blue-600 hover:text-blue-900 edit-student-btn" onClick={()=>handleEdit(stud)}>
                       <i className="fas fa-edit"></i>
                     </button>
                     <button
                       className="text-red-600 hover:text-red-900 delete-student-btn"
-                      data-student-id="1"
+                      onClick={()=>handleDelete(stud)}
                     >
                       <i className="fas fa-trash-alt"></i>
                     </button>
                     <button
                       className="text-purple-600 hover:text-purple-900 view-details-btn"
-                      data-details="details-1"
+                      onClick={()=>handleView(stud)}
                     >
                       <i className="fas fa-eye"></i>
                     </button>
@@ -117,63 +141,21 @@ const StudentTable = ({ className }: StudentTableProps) => {
                 </td>
               </tr>
             ))}
-
-            {/* <!-- Detalles de Estudiante 1 (oculta inicialmente) --> */}
-            <tr id="details-1" className="hidden bg-blue-50">
-              <td className="px-6 py-4">
-                <div className="font-medium text-gray-900 mb-2">
-                  Detalles del estudiante:
-                </div>
-                <div className="text-sm text-gray-700 bg-white p-3 rounded border border-blue-200">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <p>
-                        <strong>Sexo:</strong> Masculino
-                      </p>
-                      <p>
-                        <strong>Provincia:</strong> Villa Clara
-                      </p>
-                      <p>
-                        <strong>Municipio:</strong> Santa Clara
-                      </p>
-                      <p>
-                        <strong>Dirección:</strong> Calle 12 #345
-                      </p>
-                      <p>
-                        <strong>Teléfono personal:</strong> 55512345
-                      </p>
-                      <p>
-                        <strong>Teléfono de algún familiar:</strong> 58741659
-                      </p>
-                      <p>
-                        <strong>Enfermedades que padece:</strong> Asma
-                      </p>
-                      <p>
-                        <strong>Medicamentos que consume:</strong> Ketotifeno
-                      </p>
-                    </div>
-                    <div>
-                      <p>
-                        <strong>Aprovechamiento docente:</strong> Alto
-                      </p>
-                      <p>
-                        <strong>Cadete de las FAR:</strong> No
-                      </p>
-                      <p>
-                        <strong>Cadete del MININT:</strong> No
-                      </p>
-                      <p>
-                        <strong>Militante de la UJC:</strong> No
-                      </p>
-                      <p>
-                        <strong>Proceso disciplinario</strong> Ninguno
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
           </tbody>
+          {selectedStudent && (
+        <>
+          <StudentDetailDialog
+            student={selectedStudent}
+            open={viewDialogOpen}
+            onOpenChange={setViewDialogOpen}
+          />
+          <StudentDeleteDialog
+            student={selectedStudent}
+            open={deleteDialogOpen}
+            onOpenChange={setDeleteDialogOpen}
+          />
+        </>
+      )}
         </table>
       </div>
       <Pagination

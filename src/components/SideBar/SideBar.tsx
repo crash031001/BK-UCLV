@@ -1,9 +1,10 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import SideBarLink from "./SideBarLink";
 import UserProfileSection from "./UserProfile/UserProfileSection";
 import { useState } from "react";
 const SideBar = () => {
-  const [activeLink, setActiveLink] = useState<string>("/");
+  const location = useLocation()
+  const [activeLink, setActiveLink] = useState<string>(location.pathname);
   return (
     <div className="flex">
       <aside className="w-64 bg-uclv-blue text-white flex flex-col py-8 px-4 h-screen">
