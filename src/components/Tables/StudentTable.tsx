@@ -1,153 +1,24 @@
 import { cn } from "@/lib/utils";
 import type { StudentType } from "@/types/StudentType";
 import { useEffect, useState } from "react";
-
+import Pagination from "../shared/Pagination";
+import estudiantes from '@/utils/students.json'
 interface StudentTableProps {
   className?: string;
 }
 
 const StudentTable = ({ className }: StudentTableProps) => {
   const [students, setStudents] = useState<StudentType[]>([]);
-  const list: StudentType[] = [
-    {
-      nombre: "Juan",
-      apellidos: "Pérez",
-      ci: "04010112345",
-      facultad: "FMFC",
-      carrera: "Ing. Informática",
-      anho: "3ro",
-      edificio: "Edificio C5",
-      cuarto: "502",
-      sexo: "Masculino",
-      provincia: "Villa Clara",
-      municipio: "Santa Clara",
-      direccion: "Calle 12 #345",
-      telefonoPersonal: "55512345",
-      telefonoFamiliar: "58741659",
-      enfermedades: "Asma",
-      medicamentos: "Ketotifeno",
-      aprovechamiento: "Alto",
-      cadeteFAR: "No",
-      cadeteMININT: "No",
-      militante: "No",
-      proceso: "Ninguno",
-    },
-    {
-      nombre: "María",
-      apellidos: "García",
-      ci: "02020254321",
-      facultad: "FEC",
-      carrera: "Ing. Civil",
-      anho: "2do",
-      edificio: "Edificio A3",
-      cuarto: "301",
-      sexo: "Femenino",
-      provincia: "La Habana",
-      municipio: "Playa",
-      direccion: "Avenida 7 #1208",
-      telefonoPersonal: "52897634",
-      telefonoFamiliar: "78345621",
-      enfermedades: "Ninguna",
-      medicamentos: "Ninguno",
-      aprovechamiento: "Medio",
-      cadeteFAR: "No",
-      cadeteMININT: "No",
-      militante: "No",
-      proceso: "Ninguno",
-    },
-    {
-      nombre: "Carlos",
-      apellidos: "Rodríguez",
-      ci: "03030398765",
-      facultad: "FEC",
-      carrera: "Arquitectura",
-      anho: "4to",
-      edificio: "Edificio B2",
-      cuarto: "204",
-      sexo: "Masculino",
-      provincia: "Matanzas",
-      municipio: "Varadero",
-      direccion: "Calle 34 #56",
-      telefonoPersonal: "54321098",
-      telefonoFamiliar: "54321099",
-      enfermedades: "Alergias estacionales",
-      medicamentos: "Antihistamínicos",
-      aprovechamiento: "Alto",
-      cadeteFAR: "Sí",
-      cadeteMININT: "No",
-      militante: "No",
-      proceso: "Ninguno",
-    },
-    {
-      nombre: "Laura",
-      apellidos: "Fernández",
-      ci: "05050545678",
-      facultad: "FMFC",
-      carrera: "Medicina",
-      anho: "1ro",
-      edificio: "Edificio D1",
-      cuarto: "105",
-      sexo: "Femenino",
-      provincia: "Cienfuegos",
-      municipio: "Cienfuegos",
-      direccion: "Calle 8 #23",
-      telefonoPersonal: "56781234",
-      telefonoFamiliar: "56781235",
-      enfermedades: "Ninguna",
-      medicamentos: "Ninguno",
-      aprovechamiento: "Bajo",
-      cadeteFAR: "No",
-      cadeteMININT: "No",
-      militante: "No",
-      proceso: "Ninguno",
-    },
-    {
-      nombre: "José",
-      apellidos: "Martínez",
-      ci: "06060678901",
-      facultad: "FEC",
-      carrera: "Ing. Eléctrica",
-      anho: "5to",
-      edificio: "Edificio A1",
-      cuarto: "401",
-      sexo: "Masculino",
-      provincia: "Camagüey",
-      municipio: "Camagüey",
-      direccion: "Calle 45 #67",
-      telefonoPersonal: "59876543",
-      telefonoFamiliar: "59876544",
-      enfermedades: "Hipertensión",
-      medicamentos: "Enalapril",
-      aprovechamiento: "Medio",
-      cadeteFAR: "No",
-      cadeteMININT: "Sí",
-      militante: "Sí",
-      proceso: "Ninguno",
-    },
-    {
-      nombre: "Ana",
-      apellidos: "López",
-      ci: "07070723456",
-      facultad: "FMFC",
-      carrera: "Bioquímica",
-      anho: "3ro",
-      edificio: "Edificio C3",
-      cuarto: "302",
-      sexo: "Femenino",
-      provincia: "Santiago de Cuba",
-      municipio: "Santiago de Cuba",
-      direccion: "Calle 9 #12",
-      telefonoPersonal: "51234567",
-      telefonoFamiliar: "51234568",
-      enfermedades: "Ninguna",
-      medicamentos: "Ninguno",
-      aprovechamiento: "Alto",
-      cadeteFAR: "No",
-      cadeteMININT: "No",
-      militante: "No",
-      proceso: "Ninguno",
-    },
-  ];
+  const list: StudentType[] = estudiantes
+  const [currentPage, setCurrentPage] = useState(1);
+  const studentsPerPage = 6;
+  const indexOfLastStudent = currentPage * studentsPerPage;
+  const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
+  const totalPages = Math.ceil(students.length / studentsPerPage);
+  const currentStudents = students.slice(
+    indexOfFirstStudent,
+    indexOfLastStudent
+  );
   const loadData = () => {
     setStudents(list);
   };
@@ -193,8 +64,8 @@ const StudentTable = ({ className }: StudentTableProps) => {
             className="bg-white divide-y divide-gray-200"
             id="students-table-body"
           >
-            {students.map((stud) => (
-              <tr>
+            {currentStudents.map((stud) => (
+              <tr key={stud.ci}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10 rounded-full bg-uclv-light-blue flex items-center justify-center text-uclv-blue font-bold">
@@ -202,7 +73,7 @@ const StudentTable = ({ className }: StudentTableProps) => {
                     </div>
                     <div className="ml-4">
                       <div className="text-sm font-medium text-gray-900">
-                        {stud.nombre}{" "}{stud.apellidos}
+                        {stud.nombre} {stud.apellidos}
                       </div>
                     </div>
                   </div>
@@ -305,6 +176,11 @@ const StudentTable = ({ className }: StudentTableProps) => {
           </tbody>
         </table>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        paginate={(pageNumber) => setCurrentPage(pageNumber)}
+      />
     </div>
   );
 };

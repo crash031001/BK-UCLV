@@ -3,7 +3,7 @@ import StudentFilterField from "./StudentFilterField";
 
 const StudentSearchFilters = () => {
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden p-6 mb-6">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden p-4 mb-6">
       <form id="search-form">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <StudentFilterField
