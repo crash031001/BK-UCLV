@@ -60,7 +60,7 @@ const FormSelect = ({
         </SelectTrigger>
         <SelectContent>
           {data?.map((val, index) => (
-            <SelectItem value={dataValues[index]}>{val}</SelectItem>
+            <SelectItem key={index} value={dataValues[index]}>{val}</SelectItem>
           ))}
         </SelectContent>
       </Select>

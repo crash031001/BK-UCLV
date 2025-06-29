@@ -1,22 +1,34 @@
 "use client";
 
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import type { StudentType } from "@/types/StudentType";
+import { notifyError, notifySuccess } from "@/utils/Notify";
+import { deleteEstudiante } from "@/utils/services/StudentServices";
 
 interface StudentDeleteDialogProps {
   student: StudentType;
+  studentsList: StudentType[]
   open: boolean;
+  updateList:React.Dispatch<React.SetStateAction<StudentType[]>>
   onOpenChange: (open: boolean) => void;
 }
 
 export function StudentDeleteDialog({
+  studentsList,
+  updateList,
   student,
   open,
   onOpenChange,
 }: StudentDeleteDialogProps) {
-  const handleDelete = () => {
-    // Lógica para eliminar el estudiante
-    console.log("Eliminando estudiante:", student.ci);
+  const handleDelete = async () => {
+    const response = await deleteEstudiante(student.id)
+    if (response?.status == 200) {
+      updateList(studentsList.filter(e=> e.id != student.id))
+      notifySuccess("Se ha eliminado correctamente")
+    }else{
+      notifyError("Ha ocurrido un error, inténtelo de nuevo")
+    }
+    console.log(response)
     onOpenChange(false);
   };
 
@@ -25,13 +37,13 @@ export function StudentDeleteDialog({
       <DialogContent className="border-0" showCloseButton={false}>
         <div className="text-center">
           <i className="fas fa-exclamation-triangle text-4xl text-yellow-500 mb-4"></i>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
+          <DialogTitle className="text-lg font-medium text-gray-900 mb-2">
             ¿Eliminar estudiante?
-          </h3>
-          <p className="text-sm text-gray-500 mb-4">
+          </DialogTitle>
+          <DialogDescription className="text-sm text-gray-500 mb-4">
             Esta acción no se puede deshacer. ¿Estás seguro de que deseas
             eliminar este estudiante?
-          </p>
+          </DialogDescription>
           <div className="flex justify-center space-x-4">
             <button
               onClick={() => onOpenChange(false)}

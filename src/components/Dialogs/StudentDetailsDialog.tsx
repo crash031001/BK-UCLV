@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -32,14 +33,12 @@ export function StudentDetailDialog({
                 {student.apellidos[0]}
               </AvatarFallback>
             </Avatar>
-            <div>
-              <h2>
+            <DialogDescription className="flex flex-col">
                 {student.nombre} {student.apellidos}
-              </h2>
-              <p className="text-sm font-normal text-gray-500">
+              <span className="text-sm font-normal text-gray-500">
                 CI: {student.ci}
-              </p>
-            </div>
+              </span>
+            </DialogDescription>
           </DialogTitle>
         </DialogHeader>
 

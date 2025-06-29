@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import type React from "react";
 
 interface NormalBtnProps {
+  onClick?:()=>void
   text?: string;
   children?: React.ReactNode;
   id?: string;
@@ -9,10 +10,11 @@ interface NormalBtnProps {
   type?:"button" | "submit" | "reset"
 }
 
-const NormalBtn = ({ text, children, id, classname,type = "button" }: NormalBtnProps) => {
+const NormalBtn = ({ text, children, id, classname,type = "button",onClick }: NormalBtnProps) => {
   return (
     <div className="flex items-end">
       <button
+        onClick={onClick}
         type={type}
         id={id}
         className={cn(

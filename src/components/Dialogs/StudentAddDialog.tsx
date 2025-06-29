@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import FormInput from "../Form/FormInput";
 import FormSelect from "../Form/FormSelect";
 import provincias from "@/utils/provincias.json";
@@ -9,29 +9,44 @@ import { useForm, FormProvider } from "react-hook-form";
 import type { StudentType } from "@/types/StudentType";
 import ErrorMessage from "../Form/ErrorMessage";
 import { nameRules } from "@/rules/StudentRules";
+import {createEstudiante} from '@/utils/services/StudentServices'
+import { notifyError, notifySuccess } from "@/utils/Notify";
 interface StudentAddDialogProps {
   open: boolean;
+  updateList:()=>void
   onOpenChange: (open: boolean) => void;
 }
 
-const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
+const StudentAddDialog = ({ open, onOpenChange,
+  updateList }: StudentAddDialogProps) => {
   const methods = useForm<StudentType>();
   const {
     handleSubmit,
     formState: { errors },
   } = methods;
-  const onSubmit = (data: StudentType) => {
+  const onSubmit = async (data: StudentType) => {
+    const response = await  createEstudiante(data)
+    if(response?.status === 201){
+      onOpenChange(false);
+      updateList()
+      notifySuccess("Estudiante creado exitosamente")
+    }else{
+      notifyError("Ha ocurrido un error, inténtelo de nuevo")
+    }
+    console.log(response)
     console.log(data);
   };
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex flex-col items-center justify-start border-0 bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogTitle>
         <div className="flex justify-between items-center bg-white">
           <h3 className="text-xl font-bold text-uclv-dark">
             <i className="fas fa-user-plus text-uclv-blue mr-2"></i>
             <span id="modal-title">Añadir Nuevo Estudiante</span>
           </h3>
         </div>
+        </DialogTitle>
 
         <div className="p-6 w-full">
           <FormProvider {...methods}>
@@ -74,7 +89,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                   name="sexo"
                   placeholder="Seleccione"
                   data={["Masculino", "Femenino"]}
-                  dataValues={["M", "F"]}
+                  dataValues={["masculino", "femenino"]}
                   req
                 />
                 {errors.sexo && <ErrorMessage message={errors.sexo.message} />}
@@ -261,6 +276,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
               </div>
               <div className="flex items-center justify-center gap-6 mt-5">
                 <NormalBtn
+                onClick={()=>onOpenChange(false)}
                   text="Cancelar"
                   classname="flex items-center bg-transparent border-1 border-gray-500 text-gray-500 hover:bg-gray-100"
                 >

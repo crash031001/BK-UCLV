@@ -1,18 +1,18 @@
 import { cn } from "@/lib/utils";
 import type { StudentType } from "@/types/StudentType";
-import { useEffect, useState } from "react";
 import Pagination from "../shared/Pagination";
 import { StudentDetailDialog } from "../Dialogs/StudentDetailsDialog";
 import { StudentDeleteDialog } from "../Dialogs/StudentDeleteDialog";
-import { getEstudiantes } from "@/utils/getters";
 import StudentEditDialog from "../Dialogs/StudentEditDialog";
-
+import { useState } from "react";
 interface StudentTableProps {
+	loadData:()=>void
 	className?: string;
+	students?: StudentType[]
+	setStudents:React.Dispatch<React.SetStateAction<StudentType[]>>
 }
 
-const StudentTable = ({ className }: StudentTableProps) => {
-  const [students, setStudents] = useState<StudentType[]>([]);
+const StudentTable = ({ className,students = [], setStudents,loadData}: StudentTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 6;
   const indexOfLastStudent = currentPage * studentsPerPage;
@@ -43,17 +43,6 @@ const StudentTable = ({ className }: StudentTableProps) => {
 		setSelectedStudent(student);
 		setDeleteDialogOpen(true);
 	};
-	const loadData = async() => {
-    const response = await getEstudiantes()
-    if (response) {
-      console.log(response.data)
-  		setStudents(response.data);
-    }
-	};
-	useEffect(() => {
-		loadData();
-	}, []);
-
 	return (
 		<div
 			className={cn("bg-white rounded-lg shadow-sm overflow-hidden", className)}
@@ -157,11 +146,14 @@ const StudentTable = ({ className }: StudentTableProps) => {
 								onOpenChange={setViewDialogOpen}
 							/>
 							<StudentDeleteDialog
+								updateList={setStudents}
+								studentsList={students}
 								student={selectedStudent}
 								open={deleteDialogOpen}
 								onOpenChange={setDeleteDialogOpen}
 							/>
 							<StudentEditDialog
+								updateList={loadData}
 								student={selectedStudent}
 								open={editDialogOpen}
 								onOpenChange={setEditDialogOpen}

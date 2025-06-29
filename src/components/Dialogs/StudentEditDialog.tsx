@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import FormInput from "../Form/FormInput";
 import FormSelect from "../Form/FormSelect";
 import provincias from "@/utils/provincias.json";
@@ -10,7 +10,10 @@ import type { StudentType } from "@/types/StudentType";
 import ErrorMessage from "../Form/ErrorMessage";
 import { nameRules } from "@/rules/StudentRules";
 import { useEffect } from "react";
+import { editEstudiante } from "@/utils/services/StudentServices";
+import { notifyError, notifySuccess } from "@/utils/Notify";
 interface StudentEditProps {
+  updateList: ()=>void
   open: boolean;
   onOpenChange: (open: boolean) => void;
   student: StudentType;
@@ -20,33 +23,44 @@ const StudentEditDialog = ({
   open,
   onOpenChange,
   student,
+  updateList,
 }: StudentEditProps) => {
-  console.log(student);
   const methods = useForm<StudentType>();
   const {
     handleSubmit,
     formState: { errors },
     reset,
   } = methods;
-  const onSubmit = (data: StudentType) => {
-    console.log(data);
+  const onSubmit = async (data: StudentType) => {
+    const response = await editEstudiante(data)
+    if (response?.status ==  200) {
+      onOpenChange(false)
+      notifySuccess("Se ha editado correctamente")
+      updateList()
+    }else{
+      notifyError("Ha ocurrido un error, inténtelo de nuevo")
+    }
   };
 
   useEffect(() => {
     if (student) {
-      reset(student); // <-- Esto reinicia el formulario con los datos del estudiante seleccionado
+      reset(student);
     }
   }, [student, reset]);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex flex-col items-center justify-start border-0 bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+      <DialogTitle>
         <div className="flex justify-between items-center bg-white">
           <h3 className="text-xl font-bold text-uclv-dark">
             <i className="fas fa-user-plus text-uclv-blue mr-2"></i>
             <span id="modal-title">Editar Estudiante</span>
           </h3>
         </div>
-
+        </DialogTitle>
+        <DialogDescription className="my-0">
+        Edite la información académica del estudiante matriculado 
+        </DialogDescription>
         <div className="p-6 w-full">
           <FormProvider {...methods}>
             <form id="student-edit-form" onSubmit={handleSubmit(onSubmit)}>
@@ -92,7 +106,7 @@ const StudentEditDialog = ({
                   name="sexo"
                   placeholder="Seleccione"
                   data={["Masculino", "Femenino"]}
-                  dataValues={["M", "F"]}
+                  dataValues={["masculino", "femenino"]}
                   req
                 />
                 {errors.sexo && <ErrorMessage message={errors.sexo.message} />}
@@ -235,15 +249,7 @@ const StudentEditDialog = ({
                 {errors.edificio && (
                   <ErrorMessage message={errors.edificio.message} />
                 )}
-                <FormSelect
-                  value={student.cuarto}
-                  labelText="Cuarto"
-                  placeholder="Seleccione"
-                  name="cuarto"
-                  req
-                  data={["301", "305", "409"]}
-                  dataValues={["Edificio 900", "Edificio C5", "Edificio C4"]}
-                />
+                <FormInput labelText="Cuarto" placeholder="Ej. 305" name="cuarto" req value={student.cuarto} type="number" />
 
                 <div className="md:col-span-2 mt-4">
                   <h4 className="text-lg font-medium text-uclv-dark mb-3 border-b pb-2">

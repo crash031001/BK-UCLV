@@ -1,4 +1,5 @@
 export type StudentType = {
+    id:number
     nombre: string
     apellidos:string
     ci:string
