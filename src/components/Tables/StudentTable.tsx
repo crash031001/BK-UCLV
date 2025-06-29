@@ -2,9 +2,9 @@ import { cn } from "@/lib/utils";
 import type { StudentType } from "@/types/StudentType";
 import { useEffect, useState } from "react";
 import Pagination from "../shared/Pagination";
-import estudiantes from "@/utils/students.json";
 import { StudentDetailDialog } from "../Dialogs/StudentDetailsDialog";
 import { StudentDeleteDialog } from "../Dialogs/StudentDeleteDialog";
+import { getEstudiantes } from "@/utils/getters";
 
 interface StudentTableProps {
   className?: string;
@@ -12,7 +12,6 @@ interface StudentTableProps {
 
 const StudentTable = ({ className }: StudentTableProps) => {
   const [students, setStudents] = useState<StudentType[]>([]);
-  const list: StudentType[] = estudiantes;
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 6;
   const indexOfLastStudent = currentPage * studentsPerPage;
@@ -43,8 +42,12 @@ const StudentTable = ({ className }: StudentTableProps) => {
     setSelectedStudent(student);
     setDeleteDialogOpen(true);
   };
-  const loadData = () => {
-    setStudents(list);
+  const loadData = async() => {
+    const response = await getEstudiantes()
+    if (response) {
+      console.log(response.data)
+      setStudents(response.data);
+    }
   };
   useEffect(() => {
     loadData();
