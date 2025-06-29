@@ -9,20 +9,34 @@ import { useForm, FormProvider } from "react-hook-form";
 import type { StudentType } from "@/types/StudentType";
 import ErrorMessage from "../Form/ErrorMessage";
 import { nameRules } from "@/rules/StudentRules";
-interface StudentAddDialogProps {
+import { useEffect } from "react";
+interface StudentEditProps {
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
+	student: StudentType;
 }
 
-const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
+const StudentEditDialog = ({
+	open,
+	onOpenChange,
+	student,
+}: StudentEditProps) => {
+	console.log(student);
 	const methods = useForm<StudentType>();
 	const {
 		handleSubmit,
 		formState: { errors },
+		reset,
 	} = methods;
 	const onSubmit = (data: StudentType) => {
 		console.log(data);
 	};
+
+	useEffect(() => {
+		if (student) {
+			reset(student); // <-- Esto reinicia el formulario con los datos del estudiante seleccionado
+		}
+	}, [student, reset]);
 	return (
 		<Dialog
 			open={open}
@@ -32,14 +46,14 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 				<div className="flex justify-between items-center bg-white">
 					<h3 className="text-xl font-bold text-uclv-dark">
 						<i className="fas fa-user-plus text-uclv-blue mr-2"></i>
-						<span id="modal-title">Añadir Nuevo Estudiante</span>
+						<span id="modal-title">Editar Estudiante</span>
 					</h3>
 				</div>
 
 				<div className="p-6 w-full">
 					<FormProvider {...methods}>
 						<form
-							id="student-form"
+							id="student-edit-form"
 							onSubmit={handleSubmit(onSubmit)}
 						>
 							<div className="flex flex-col gap-4 ">
@@ -53,6 +67,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									name="nombre"
 									placeholder="Ej. Roberto"
 									rules={nameRules}
+									value={student.nombre}
 								/>
 								{errors.nombre && (
 									<ErrorMessage message={errors.nombre.message} />
@@ -62,11 +77,13 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									name="apellidos"
 									placeholder="Ej. Sierra Mendez"
 									req
+									value={student.apellidos}
 								/>
 								{errors.apellidos && (
 									<ErrorMessage message={errors.apellidos.message} />
 								)}
 								<FormInput
+									value={student.ci}
 									labelText="Carnet de Identidad"
 									name="ci"
 									placeholder="Ej. 04102054671"
@@ -75,6 +92,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 								/>
 								{errors.ci && <ErrorMessage message={errors.ci.message} />}
 								<FormSelect
+									value={student.sexo}
 									labelText="Sexo"
 									name="sexo"
 									placeholder="Seleccione"
@@ -84,6 +102,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 								/>
 								{errors.sexo && <ErrorMessage message={errors.sexo.message} />}
 								<FormInput
+									value={student.telefonoPersonal}
 									labelText="Teléfono personal"
 									name="telefonoPersonal"
 									placeholder="Ej. 56408790"
@@ -94,6 +113,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.telefonoPersonal.message} />
 								)}
 								<FormInput
+									value={student.telefonoFamiliar}
 									labelText="Teléfono de familiar"
 									name="telefonoFamiliar"
 									placeholder="Ej. 56507910"
@@ -104,6 +124,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.telefonoFamiliar.message} />
 								)}
 								<FormSelect
+									value={student.provincia}
 									labelText="Provincia"
 									name="provincia"
 									placeholder="Seleccione"
@@ -115,6 +136,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.provincia.message} />
 								)}
 								<FormCascadingSelect
+									value={student.municipio}
 									labelText="Municipio"
 									name="municipio"
 									placeholder="Seleccione"
@@ -126,6 +148,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.municipio.message} />
 								)}
 								<FormInput
+									value={student.direccion}
 									labelText="Dirección"
 									name="direccion"
 									placeholder="Ej. Calle 5ta #45"
@@ -135,6 +158,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.direccion.message} />
 								)}
 								<FormInput
+									value={student.enfermedades}
 									labelText="Enfermedades"
 									name="enfermedades"
 									placeholder="Ej. Asma"
@@ -144,6 +168,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.enfermedades.message} />
 								)}
 								<FormInput
+									value={student.medicamentos}
 									labelText="Medicamentos"
 									name="medicamentos"
 									placeholder="Ej. ketotifeno"
@@ -158,6 +183,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									</h4>
 								</div>
 								<FormSelect
+									value={student.facultad}
 									labelText="Facultad"
 									name="facultad"
 									placeholder="Seleccione"
@@ -169,6 +195,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.facultad.message} />
 								)}
 								<FormSelect
+									value={student.carrera}
 									labelText="Carrera"
 									name="carrera"
 									placeholder="Seleccione"
@@ -180,6 +207,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.carrera.message} />
 								)}
 								<FormSelect
+									value={student.anho}
 									labelText="Año"
 									name="anho"
 									placeholder="Seleccione"
@@ -189,6 +217,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 								/>
 								{errors.anho && <ErrorMessage message={errors.anho.message} />}
 								<FormInput
+									value={student.aprovechamiento}
 									labelText="Aprovechamiento Docente"
 									name="aprovechamiento"
 									placeholder="Ej. Alto"
@@ -204,6 +233,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 								</div>
 
 								<FormSelect
+									value={student.edificio}
 									labelText="Edificio"
 									placeholder="Seleccione"
 									name="edificio"
@@ -215,6 +245,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.edificio.message} />
 								)}
 								<FormSelect
+									value={student.cuarto}
 									labelText="Cuarto"
 									placeholder="Seleccione"
 									name="cuarto"
@@ -230,6 +261,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 								</div>
 
 								<FormSelect
+									value={student.cadeteFAR}
 									labelText="Cadete FAR"
 									name="cadeteFAR"
 									placeholder="Seleccione"
@@ -241,6 +273,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.cadeteFAR.message} />
 								)}
 								<FormSelect
+									value={student.cadeteMININT}
 									labelText="Cadete MININT"
 									name="cadeteMININT"
 									placeholder="Seleccione"
@@ -252,6 +285,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									<ErrorMessage message={errors.cadeteMININT.message} />
 								)}
 								<FormSelect
+									value={student.militante}
 									labelText="Militante UJC"
 									name="militante"
 									placeholder="Seleccione"
@@ -260,6 +294,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 									dataValues={["si", "no"]}
 								/>
 								<FormInput
+									value={student.proceso}
 									labelText="Proceso Disciplinario"
 									name="proceso"
 									placeholder="Ej. Se negó a hacer cuartelería"
@@ -291,4 +326,4 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
 	);
 };
 
-export default StudentAddDialog;
+export default StudentEditDialog;
