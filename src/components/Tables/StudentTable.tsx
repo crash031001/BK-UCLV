@@ -127,22 +127,22 @@ const StudentTable = ({ className }: StudentTableProps) => {
 								<td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
 									<div className="flex space-x-2">
 										<button
-											className="text-blue-600 hover:text-blue-900 edit-student-btn"
+											className="text-blue-600 text-lg hover:text-blue-400 edit-student-btn cursor-pointer"
 											onClick={() => handleEdit(stud)}
 										>
-											<i className="fas fa-edit"></i>
+											<i className="fas fa-edit size-4"></i>
 										</button>
 										<button
-											className="text-red-600 hover:text-red-900 delete-student-btn"
+											className="text-red-600 text-lg hover:text-red-400 delete-student-btn cursor-pointer"
 											onClick={() => handleDelete(stud)}
 										>
-											<i className="fas fa-trash-alt"></i>
+											<i className="fas fa-trash-alt size-4"></i>
 										</button>
 										<button
-											className="text-purple-600 hover:text-purple-900 view-details-btn"
+											className="text-purple-600 text-lg hover:text-purple-400 view-details-btn cursor-pointer"
 											onClick={() => handleView(stud)}
 										>
-											<i className="fas fa-eye"></i>
+											<i className="fas fa-eye size-4"></i>
 										</button>
 									</div>
 								</td>

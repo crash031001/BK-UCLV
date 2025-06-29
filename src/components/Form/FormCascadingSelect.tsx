@@ -38,10 +38,10 @@ const FormCascadingSelect = ({
 				htmlFor={name}
 			>
 				{labelText}
+				{req && <span className="text-red-600">*</span>}
 			</Label>
 			<Select
 				value={value}
-				required={req}
 				disabled={!condition}
 			>
 				<SelectTrigger className="w-full border border-gray-300 rounded px-3 py-2">
