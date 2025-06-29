@@ -6,13 +6,14 @@ interface NormalBtnProps {
   children?: React.ReactNode;
   id?: string;
   classname?: string;
+  type?:"button" | "submit" | "reset"
 }
 
-const NormalBtn = ({ text, children, id, classname }: NormalBtnProps) => {
+const NormalBtn = ({ text, children, id, classname,type = "button" }: NormalBtnProps) => {
   return (
     <div className="flex items-end">
       <button
-        type="button"
+        type={type}
         id={id}
         className={cn(
           "w-full cursor-pointer bg-uclv-blue hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200",

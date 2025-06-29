@@ -7,6 +7,8 @@ import FormCascadingSelect from "../Form/FormCascadingSelect";
 import NormalBtn from "../shared/NormalBtn";
 import {useForm,FormProvider} from 'react-hook-form'
 import type { StudentType } from "@/types/StudentType";
+import ErrorMessage from "../Form/ErrorMessage";
+import { nameRules } from "@/rules/StudentRules";
 interface StudentAddDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -14,6 +16,10 @@ interface StudentAddDialogProps {
 
 const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
   const methods = useForm<StudentType>()
+  const {handleSubmit,formState:{errors}} = methods
+  const onSubmit = (data:StudentType)=>{
+    console.log(data)
+  }
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex flex-col items-center justify-start border-0 bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
@@ -24,10 +30,10 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
           </h3>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 w-full">
           <FormProvider {...methods}>
-          <form id="student-form">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form id="student-form" onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-4 ">
               <div className="md:col-span-2">
                 <h4 className="text-lg font-medium text-uclv-dark mb-3 border-b pb-2">
                   Datos Personales
@@ -35,16 +41,18 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
               </div>
               <FormInput
                 labelText="Nombre(s)"
-                name="first-name"
+                name="nombre"
                 placeholder="Ej. Roberto"
-                req
+                rules={nameRules}
               />
+              {errors.nombre && <ErrorMessage message={errors.nombre.message} />}
               <FormInput
                 labelText="Apellidos"
-                name="last-name"
+                name="apellidos"
                 placeholder="Ej. Sierra Mendez"
                 req
               />
+              {errors.apellidos && <ErrorMessage message={errors.apellidos.message} />}
               <FormInput
                 labelText="Carnet de Identidad"
                 name="ci"
@@ -52,35 +60,32 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 type="number"
                 req
               />
-              <FormInput
-                labelText="Carnet de Identidad"
-                name="ci"
-                placeholder="Ej. 04102054671"
-                type="number"
-                req
-              />
+              {errors.ci && <ErrorMessage message={errors.ci.message} />}
               <FormSelect
                 labelText="Sexo"
-                name="gender"
+                name="sexo"
                 placeholder="Seleccione"
                 data={["Masculino", "Femenino"]}
                 dataValues={["M", "F"]}
                 req
               />
+              {errors.sexo && <ErrorMessage message={errors.sexo.message} />}
               <FormInput
                 labelText="Teléfono personal"
-                name="phone"
+                name="telefonoPersonal"
                 placeholder="Ej. 56408790"
                 type="number"
                 req
               />
+              {errors.telefonoPersonal && <ErrorMessage message={errors.telefonoPersonal.message} />}
               <FormInput
                 labelText="Teléfono de familiar"
-                name="phone"
+                name="telefonoFamiliar"
                 placeholder="Ej. 56507910"
                 type="number"
                 req
               />
+              {errors.telefonoFamiliar && <ErrorMessage message={errors.telefonoFamiliar.message} />}
               <FormSelect
                 labelText="Provincia"
                 name="provincia"
@@ -89,6 +94,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 dataValues={provincias}
                 req
               />
+              {errors.provincia && <ErrorMessage message={errors.provincia.message} />}
               <FormCascadingSelect
                 labelText="Municipio"
                 name="municipio"
@@ -97,25 +103,28 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 dataValues={provincias}
                 req
               />
+              {errors.municipio && <ErrorMessage message={errors.municipio.message} />}
               <FormInput
                 labelText="Dirección"
                 name="direccion"
                 placeholder="Ej. Calle 5ta #45"
                 req
               />
+              {errors.direccion && <ErrorMessage message={errors.direccion.message} />}
               <FormInput
                 labelText="Enfermedades"
-                name="enfermedad"
+                name="enfermedades"
                 placeholder="Ej. Asma"
                 req
               />
+              {errors.enfermedades && <ErrorMessage message={errors.enfermedades.message} />}
               <FormInput
                 labelText="Medicamentos"
                 name="medicamentos"
                 placeholder="Ej. ketotifeno"
                 req
               />
-
+              {errors.medicamentos && <ErrorMessage message={errors.medicamentos.message} />}
               <div className="md:col-span-2 mt-4">
                 <h4 className="text-lg font-medium text-uclv-dark mb-3 border-b pb-2">
                   Datos Académicos
@@ -129,6 +138,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 data={facultades}
                 dataValues={facultades}
               />
+              {errors.facultad && <ErrorMessage message={errors.facultad.message} />}
               <FormSelect
                 labelText="Carrera"
                 name="carrera"
@@ -137,6 +147,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 data={["Ing. Info", "Fisica"]}
                 dataValues={["Ing. Info", "Fisica"]}
               />
+              {errors.carrera && <ErrorMessage message={errors.carrera.message} />}
               <FormSelect
                 labelText="Año"
                 name="anho"
@@ -145,13 +156,14 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 data={["1ero", "2do", "3ero", "4to"]}
                 dataValues={["1ero", "2do", "3ero", "4to"]}
               />
+              {errors.anho && <ErrorMessage message={errors.anho.message} />}
               <FormInput
                 labelText="Aprovechamiento Docente"
                 name="aprovechamiento"
                 placeholder="Ej. Alto"
                 req
               />
-
+              {errors.aprovechamiento && <ErrorMessage message={errors.aprovechamiento.message} />}
               <div className="md:col-span-2 mt-4">
                 <h4 className="text-lg font-medium text-uclv-dark mb-3 border-b pb-2">
                   Datos de Residencia
@@ -166,9 +178,11 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 data={["Edificio 900", "Edificio C5", "Edificio C4"]}
                 dataValues={["Edificio 900", "Edificio C5", "Edificio C4"]}
               />
+              {errors.edificio && <ErrorMessage message={errors.edificio.message} />}
               <FormSelect
                 labelText="Cuarto"
-                name="Seleccione"
+                placeholder="Seleccione"
+                name="cuarto"
                 req
                 data={["301", "305", "409"]}
                 dataValues={["Edificio 900", "Edificio C5", "Edificio C4"]}
@@ -188,6 +202,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 data={["Sí", "No"]}
                 dataValues={["si", "no"]}
               />
+              {errors.cadeteFAR && <ErrorMessage message={errors.cadeteFAR.message} />}
               <FormSelect
                 labelText="Cadete MININT"
                 name="cadeteMININT"
@@ -196,6 +211,7 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 data={["Sí", "No"]}
                 dataValues={["si", "no"]}
               />
+              {errors.cadeteMININT && <ErrorMessage message={errors.cadeteMININT.message} />}
               <FormSelect
                 labelText="Militante UJC"
                 name="militante"
@@ -209,12 +225,13 @@ const StudentAddDialog = ({ open, onOpenChange }: StudentAddDialogProps) => {
                 name="proceso"
                 placeholder="Ej. Se negó a hacer cuartelería"
               />
+              {errors.proceso && <ErrorMessage message={errors.proceso.message} />}
             </div>
             <div className="flex items-center justify-center gap-6 mt-5">
               <NormalBtn text="Cancelar" classname="flex items-center bg-transparent border-1 border-gray-500 text-gray-500 hover:bg-gray-100">
                 <i className="fas fa-times mr-2"></i>
               </NormalBtn>
-              <NormalBtn text="Guardar" classname="flex items-center bg-uclv-green hover:bg-green-500">
+              <NormalBtn type="submit" text="Guardar" classname="flex items-center bg-uclv-green hover:bg-green-500">
                 <i className="fas fa-save mr-2"></i>
               </NormalBtn>
             </div>
