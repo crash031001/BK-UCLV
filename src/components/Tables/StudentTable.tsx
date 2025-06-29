@@ -12,28 +12,6 @@ interface StudentTableProps {
 }
 
 const StudentTable = ({ className }: StudentTableProps) => {
-	const [students, setStudents] = useState<StudentType[]>([]);
-	const list: StudentType[] = estudiantes;
-	const [currentPage, setCurrentPage] = useState(1);
-	const studentsPerPage = 6;
-	const indexOfLastStudent = currentPage * studentsPerPage;
-	const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
-	const totalPages = Math.ceil(students.length / studentsPerPage);
-	const currentStudents = students.slice(
-		indexOfFirstStudent,
-		indexOfLastStudent
-	);
-	const [viewDialogOpen, setViewDialogOpen] = useState(false);
-	const [editDialogOpen, setEditDialogOpen] = useState(false);
-	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-	const [selectedStudent, setSelectedStudent] = useState<StudentType | null>(
-		null
-	);
-
-	const handleView = (student: StudentType) => {
-		setSelectedStudent(student);
-		setViewDialogOpen(true);
-	};
   const [students, setStudents] = useState<StudentType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const studentsPerPage = 6;
@@ -45,7 +23,7 @@ const StudentTable = ({ className }: StudentTableProps) => {
     indexOfLastStudent
   );
   const [viewDialogOpen, setViewDialogOpen] = useState(false);
-  // const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<StudentType | null>(
     null
