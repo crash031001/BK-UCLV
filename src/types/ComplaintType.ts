@@ -1,3 +1,5 @@
+import type { StudentType } from "./StudentType"
+
 export type ComplaintType = {
     id:number
     student_id:number
@@ -8,4 +10,5 @@ export type ComplaintType = {
     estado:string
     visible:boolean
     respuesta:string | null
+    student:StudentType
 }

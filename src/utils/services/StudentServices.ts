@@ -4,6 +4,7 @@ import type { StudentType } from "@/types/StudentType";
 export async function getEstudiantes() {
   try {
     const response = await axiosInstance.get("api/students");
+    console.log(response)
       return response;
   } catch (error) {
     console.error(error);

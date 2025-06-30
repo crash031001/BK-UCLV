@@ -4,7 +4,16 @@ import type { AxiosError } from "axios";
 
 export async function getMyComplaints() {
   try {
-    const response = await axiosInstance.get("api/complains");
+    const response = await axiosInstance.get("api/complains/23");
+      return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function getVisibleComplaints() {
+  try {
+    const response = await axiosInstance.get("api/complains/visible");
+    console.log(response)
       return response;
   } catch (error) {
     console.log(error);
