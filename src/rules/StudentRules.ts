@@ -46,3 +46,33 @@ export const addressRules: RegisterOptions = {
 	minLength: { value: 5, message: "Debe tener al menos 5 caracteres" },
 	maxLength: { value: 100, message: "Debe tener menos de 100 caracteres" },
 };
+export const provinceRules: RegisterOptions = {
+	required: "Debe seleccionar una provincia"
+}
+export const townRules: RegisterOptions = {
+	required: "Debe seleccionar un municipio"
+}
+export const facultyRules: RegisterOptions = {
+	required: "Debe seleccionar una facultad"
+}
+export const majorRules: RegisterOptions = {
+	required: "Debe seleccionar una carrera"
+}
+export const yearRules: RegisterOptions = {
+	required: "Debe seleccionar el año que cursa"
+}
+export const buildingRules: RegisterOptions = {
+	required: "Debe seleccionar el edificio al que pertenece"
+}
+export const roomRules: RegisterOptions = {
+	required: "Debe llenar este campo"
+}
+export const cadetFarRules: RegisterOptions = {
+	required: "Debe seleccionar una opción"
+}
+export const cadetMinintRules: RegisterOptions = {
+	required: "Debe seleccionar una opción"
+}
+export const militantRules: RegisterOptions = {
+	required: "Debe seleccionar una opción"
+}

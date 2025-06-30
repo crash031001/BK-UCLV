@@ -130,4 +130,19 @@
   input[type="number"] {
     -moz-appearance: textfield;
   }
+  .scrollbar-styles::-webkit-scrollbar {
+    @apply w-2;
+  }
+  
+  .scrollbar-styles::-webkit-scrollbar-track {
+    @apply bg-muted rounded-full;
+  }
+  
+  .scrollbar-styles::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/50 rounded-full;
+  }
+  
+  .scrollbar-styles::-webkit-scrollbar-thumb:hover {
+    @apply bg-muted-foreground/70;
+  }
 }

@@ -1,29 +1,27 @@
-"use client";
-
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import type { StudentType } from "@/types/StudentType";
+import type { ComplaintType } from "@/types/ComplaintType";
 import { notifyError, notifySuccess } from "@/utils/Notify";
-import { deleteEstudiante } from "@/utils/services/StudentServices";
+import { deleteComplaint } from "@/utils/services/ComplaintsServices";
 
-interface StudentDeleteDialogProps {
-  student: StudentType;
-  studentsList: StudentType[]
+interface ComplaintDeleteDialog {
+  complaint: ComplaintType;
+  complaintsList: ComplaintType[]
   open: boolean;
-  updateList:React.Dispatch<React.SetStateAction<StudentType[]>>
+  updateList:React.Dispatch<React.SetStateAction<ComplaintType[]>>
   onOpenChange: (open: boolean) => void;
 }
 
-export function StudentDeleteDialog({
-  studentsList,
+export function ComplaintDeleteDialog({
+  complaintsList,
   updateList,
-  student,
+  complaint,
   open,
   onOpenChange,
-}: StudentDeleteDialogProps) {
+}: ComplaintDeleteDialog) {
   const handleDelete = async () => {
-    const response = await deleteEstudiante(student.id)
+    const response = await deleteComplaint(complaint.id)
     if (response?.status == 200) {
-      updateList(studentsList.filter(e=> e.id != student.id))
+      updateList(complaintsList.filter(e=> e.id != complaint.id))
       notifySuccess("Se ha eliminado correctamente")
     }else{
       notifyError("Ha ocurrido un error, inténtelo de nuevo")

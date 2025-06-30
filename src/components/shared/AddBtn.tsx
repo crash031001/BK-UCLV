@@ -11,7 +11,7 @@ const AddBtn = ({ text, children,onClick }: AddBtnProps) => {
     <div className="flex space-x-3" onClick={onClick}>
       <button
         id="add-student-btn"
-        className="bg-uclv-green cursor-pointer hover:bg-green-500 text-white px-3 py-2 rounded-lg transition duration-200 text-sm"
+        className="bg-uclv-green cursor-pointer hover:bg-green-500 text-white px-4.5 py-2 rounded-md transition duration-200 text-md"
       >
         {children}
         <span>{text}</span>

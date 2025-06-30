@@ -56,7 +56,7 @@ FormCascadingSelectProps) => {
         value={field.value}
         // disabled={!condition}
       >
-        <SelectTrigger className="w-full border border-gray-300 rounded px-3 py-2">
+        <SelectTrigger className="w-full border border-gray-300 rounded px-3 py-2" id={name}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>
