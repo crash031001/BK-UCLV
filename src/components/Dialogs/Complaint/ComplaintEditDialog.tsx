@@ -10,19 +10,22 @@ import {
 } from "@/components/ui/dialog";
 import type { ComplaintType } from "@/types/ComplaintType";
 import { notifyError, notifySuccess } from "@/utils/Notify";
-import { createComplaint } from "@/utils/services/ComplaintsServices";
+import { editComplaint } from "@/utils/services/ComplaintsServices";
 import { FormProvider, useForm } from "react-hook-form";
 
-interface ComplaintsAddDialogProps {
+interface ComplaintsEditDialogProps {
+  complaint: ComplaintType;
   open: boolean;
   updateList: () => void;
   onOpenChange: (open: boolean) => void;
 }
-const ComplaintsAddDialog = ({
+const ComplaintsEditDialog = ({
+  complaint,
   open,
   onOpenChange,
   updateList,
-}: ComplaintsAddDialogProps) => {
+}: ComplaintsEditDialogProps) => {
+  console.log(complaint);
   const methods = useForm<ComplaintType>();
   const {
     handleSubmit,
@@ -30,15 +33,17 @@ const ComplaintsAddDialog = ({
   } = methods;
   const onSubmit = async (data: ComplaintType) => {
     console.log(data);
-    const response = await createComplaint({
-      complaintData: data,
+    const response = await editComplaint({
+      complaintData: { ...complaint, ...data },
       student_id: 1,
     });
-    if (response?.status === 201) {
+
+    if (response?.status === 200) {
       onOpenChange(false);
       updateList();
       notifySuccess("Queja enviada correctamente");
-    }else{
+    } else {
+      console.log(response);
       notifyError("Ha ocurrido un error, inténtelo de nuevo");
     }
   };
@@ -61,6 +66,7 @@ const ComplaintsAddDialog = ({
                     labelText="Fecha"
                     name="fecha"
                     placeholder="Ej. 4 de junio de 2025"
+                    value={complaint.fecha}
                   />
                   <FormSelect
                     labelText="Tipo de Queja"
@@ -68,6 +74,7 @@ const ComplaintsAddDialog = ({
                     name="tipo"
                     data={["Administrativa", "Educativa"]}
                     dataValues={["administrativa", "educativa"]}
+                    value={complaint.tipo}
                   />
 
                   <FormTextArea
@@ -76,6 +83,7 @@ const ComplaintsAddDialog = ({
                     req
                     name="descripcion"
                     placeholder="Ej. Hay problema con el abastecimiento de agua en el edificio C5"
+                    value={complaint.descripcion}
                   />
                 </div>
               </div>
@@ -103,4 +111,4 @@ const ComplaintsAddDialog = ({
   );
 };
 
-export default ComplaintsAddDialog;
+export default ComplaintsEditDialog;

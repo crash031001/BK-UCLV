@@ -36,11 +36,11 @@ export function ComplaintDeleteDialog({
         <div className="text-center">
           <i className="fas fa-exclamation-triangle text-4xl text-yellow-500 mb-4"></i>
           <DialogTitle className="text-lg font-medium text-gray-900 mb-2">
-            ¿Eliminar estudiante?
+            ¿Eliminar queja?
           </DialogTitle>
           <DialogDescription className="text-sm text-gray-500 mb-4">
             Esta acción no se puede deshacer. ¿Estás seguro de que deseas
-            eliminar este estudiante?
+            eliminar esta queja?
           </DialogDescription>
           <div className="flex justify-center space-x-4">
             <button

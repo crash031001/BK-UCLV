@@ -34,7 +34,6 @@ const FormSelect = ({
   value,
   dataValues,
   placeholder,
-  // onChange,
   rules,
 }: FormSelectProps) => {
   const { control } = useFormContext();

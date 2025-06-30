@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import StudentAddDialog from "@/components/Dialogs/Student/StudentAddDialog";
 import type { StudentType } from "@/types/StudentType";
 import { getEstudiantes } from "@/utils/services/StudentServices";
+import NoData from "@/components/shared/NoData";
 
 const StudentsPage = () => {
   const [students, setStudents] = useState<StudentType[]>([]);
@@ -35,11 +36,15 @@ const StudentsPage = () => {
       </div>
 
       <StudentSearchFilters />
-      <StudentTable
-        students={students}
-        setStudents={setStudents}
-        loadData={loadData}
-      />
+      {students.length > 0 ? (
+        <StudentTable
+          students={students}
+          setStudents={setStudents}
+          loadData={loadData}
+        />
+      ) : (
+        <NoData message="No hay estudiantes para mostrar" />
+      )}
       <StudentAddDialog
         updateList={loadData}
         open={addDialogOpen}

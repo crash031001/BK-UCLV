@@ -21,7 +21,7 @@ interface FormDatePickerProps {
   name: string;
   placeholder?:string
   rules?:RegisterOptions
-  value?:Date
+  value?:string
 }
 
 export function FormDatePicker({

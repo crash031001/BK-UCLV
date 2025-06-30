@@ -20,7 +20,7 @@ const StudentTable = ({
   loadData,
 }: StudentTableProps) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const studentsPerPage = 6;
+  const studentsPerPage = 5;
   const indexOfLastStudent = currentPage * studentsPerPage;
   const indexOfFirstStudent = indexOfLastStudent - studentsPerPage;
   const totalPages = Math.ceil(students.length / studentsPerPage);
@@ -50,7 +50,8 @@ const StudentTable = ({
     setDeleteDialogOpen(true);
   };
   return (
-    <div
+    <section>
+      <div
       className={cn("bg-white rounded-lg shadow-sm overflow-hidden", className)}
     >
       <div className="overflow-x-auto">
@@ -88,7 +89,7 @@ const StudentTable = ({
             id="students-table-body"
           >
             {currentStudents.map((stud) => (
-              <tr key={stud.ci}>
+              <tr key={stud.ci} className="hover:bg-uclv-light-blue hover:shadow-md duration-100 transition-all">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10 rounded-full bg-uclv-light-blue flex items-center justify-center text-uclv-blue font-bold">
@@ -170,12 +171,13 @@ const StudentTable = ({
           )}
         </table>
       </div>
+    </div>
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         paginate={(pageNumber) => setCurrentPage(pageNumber)}
       />
-    </div>
+    </section>
   );
 };
 

@@ -36,10 +36,10 @@ import { useEffect } from "react";
 import { editEstudiante } from "@/utils/services/StudentServices";
 import { notifyError, notifySuccess } from "@/utils/Notify";
 interface StudentEditProps {
-  updateList: () => void;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
   student: StudentType;
+  open: boolean;
+  updateList: () => void;
+  onOpenChange: (open: boolean) => void;
 }
 
 const StudentEditDialog = ({
@@ -349,14 +349,14 @@ const StudentEditDialog = ({
               <div className="flex items-center justify-center gap-6 mt-5">
                 <NormalBtn
                   text="Cancelar"
-                  classname="flex items-center bg-transparent border-1 border-gray-500 text-gray-500 hover:bg-gray-100"
+                  className="flex items-center bg-transparent border-1 border-gray-500 text-gray-500 hover:bg-gray-100"
                 >
                   <i className="fas fa-times mr-2"></i>
                 </NormalBtn>
                 <NormalBtn
                   type="submit"
                   text="Guardar"
-                  classname="flex items-center bg-uclv-green hover:bg-green-500"
+                  className="flex items-center bg-uclv-green hover:bg-green-500"
                 >
                   <i className="fas fa-save mr-2"></i>
                 </NormalBtn>

@@ -57,13 +57,13 @@ const SideBar = () => {
             <i className="fas fa-users mr-2"></i>
           </SideBarLink>
 
-          <SideBarList icon="fa-comment-dots" title="Quejas" isAnyChildActive={activeLink === "/complaints" || activeLink === "/my-complaints"}>
+          <SideBarList icon="fa-comment-dots" title="Quejas" isAnyChildActive={activeLink === "/complaints/my-complaints" || activeLink === "/complaints/visible"}>
             <li>
             <SideBarLink
                 text="Quejas Visibles"
-                to="/complaints"
-                isActive={activeLink === "/complaints"}
-                onClick={() => setActiveLink("/complaints")}
+                to="/complaints/visible"
+                isActive={activeLink === "/complaints/visible"}
+                onClick={() => setActiveLink("/complaints/visible")}
               >
                 <i className="fas fa-eye mr-2"></i>
               </SideBarLink>
@@ -71,9 +71,9 @@ const SideBar = () => {
             <li>
               <SideBarLink
                 text="Mis Quejas"
-                to="/my-complaints"
-                isActive={activeLink === "/my-complaints"}
-                onClick={() => setActiveLink("/my-complaints")}
+                to="/complaints/my-complaints"
+                isActive={activeLink === "/complaints/my-complaints"}
+                onClick={() => setActiveLink("/complaints/my-complaints")}
               >
                 <i className="fas fa-list mr-2"></i>
               </SideBarLink>
